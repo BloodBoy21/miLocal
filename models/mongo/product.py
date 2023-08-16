@@ -22,4 +22,4 @@ class ProductIn(BaseModel):
     sku: str = Field(...)
     price: float = Field(...)
     stock: int = Field(...)
-    store_id: int = Field(...)
+    store_id: list[int] = Field(...)

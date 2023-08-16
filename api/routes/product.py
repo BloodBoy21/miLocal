@@ -12,7 +12,7 @@ is_store_owner = create_middleware_wrapper(callback=store_owner)
 
 @router.post("/")
 @is_store_owner
-async def create_store(
+async def create_product(
     user: User = Depends(auth_user), product: ProductIn = None
 ) -> dict:
     return await product_service.create_product(product)

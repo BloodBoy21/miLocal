@@ -11,5 +11,5 @@ class ProductRepository(RepositoryMongo):
         product_data = self.model(**product.dict())
         return await super().create(product_data)
 
-    async def exists(self, sku: str) -> bool:
-        return await self.find_one({"sku": sku}) is not None
+    async def exists(self, sku: str, store_id: str) -> bool:
+        return await self.find_one({"sku": sku, "store_id": store_id}) is not None
