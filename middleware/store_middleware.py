@@ -1,18 +1,24 @@
 from fastapi import HTTPException, status
 from fastapi.exceptions import HTTPException
 from bson.objectid import ObjectId
-from models.mongo.product import ProductIn
+from models.mongo.product import ProductIn, ProductDelete, ProductUpdate
+from typing import Union
 from repositories.store_repository import StoreRepository
 from models.user import User
 
 store_repository = StoreRepository()
 
 
-async def store_owner(product: ProductIn, user: User, **kwargs):
-    product.store_id = (
-        product.store_id if isinstance(product.store_id, list) else [product.store_id]
-    )
-    for store_id in product.store_id:
+async def store_owner(
+    product: Union[
+        ProductIn,
+        ProductDelete,
+        ProductUpdate,
+    ],
+    user: User,
+    **kwargs
+):
+    for store_id in product.stores:
         store = store_repository.find_by_id(store_id)
         if store is None:
             raise HTTPException(

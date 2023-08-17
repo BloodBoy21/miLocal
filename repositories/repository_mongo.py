@@ -24,3 +24,21 @@ class RepositoryMongo:
 
     def find_one(self, query: dict) -> BaseModel:
         return self.collection.find_one(query)
+
+    async def find_many(self, query: dict) -> list[BaseModel]:
+        return self.collection.find(query)
+
+    def update_one(self, query: dict, update: dict) -> BaseModel:
+        return self.collection.update_one(
+            query,
+            update,
+        )
+
+    def update_many(self, query: dict, update: dict) -> BaseModel:
+        return self.collection.update_many(
+            query,
+            update,
+        )
+
+    def delete_many(self, query: dict) -> BaseModel:
+        return self.collection.delete_many(query)
