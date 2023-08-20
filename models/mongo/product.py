@@ -45,3 +45,7 @@ class ProductUpdate(BaseModel):
 
 class ProductDelete(BaseModel):
     stores: list[int]
+
+
+class ProductDeleteMany(BaseModel):
+    ids: list[str]

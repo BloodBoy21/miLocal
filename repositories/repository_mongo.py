@@ -42,3 +42,6 @@ class RepositoryMongo:
 
     def delete_many(self, query: dict) -> BaseModel:
         return self.collection.delete_many(query)
+
+    def aggregation(self, pipeline: list[dict]):
+        return self.collection.aggregate(pipeline)

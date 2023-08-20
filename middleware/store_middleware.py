@@ -1,6 +1,5 @@
 from fastapi import HTTPException, status
 from fastapi.exceptions import HTTPException
-from bson.objectid import ObjectId
 from models.mongo.product import ProductIn, ProductDelete, ProductUpdate
 from typing import Union
 from repositories.store_repository import StoreRepository

@@ -1,5 +1,11 @@
 from fastapi import HTTPException, status
-from models.mongo.product import ProductIn, ProductOut, ProductUpdate, ProductDelete
+from models.mongo.product import (
+    ProductIn,
+    ProductOut,
+    ProductUpdate,
+    ProductDelete,
+    ProductDeleteMany,
+)
 from repositories.product_repository import ProductRepository
 
 product_repository = ProductRepository()
@@ -87,3 +93,13 @@ async def delete_product(sku: str, body: ProductDelete) -> dict:
         "sku": sku,
         "stores": stores,
     }
+
+
+async def delete_many_products(ids: list[str]) -> dict:
+    data = await product_repository.delete_many({"_id": {"$in": ids}})
+    if data.deleted_count == 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Products not deleted",
+        )
+    return {"products_id": [str(id) for id in ids]}
