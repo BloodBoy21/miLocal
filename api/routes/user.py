@@ -8,7 +8,7 @@ from utils.auth import auth_user
 router = APIRouter()
 
 
-@router.post("/")
+@router.post("/register")
 def create_user(user: UserIn) -> dict:
     return user_service.create_user(user)
 

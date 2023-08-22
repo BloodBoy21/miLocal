@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from pydantic import BaseModel, Field
 from models.store import Store
+from typing import Optional
 
 
 class User(db):
@@ -22,7 +23,7 @@ class UserIn(BaseModel):
     )
     email: str = Field(..., regex=r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+$")
     first_name: str = Field(..., min_length=3, regex=r"^[a-zA-Z]+$")
-    last_name: str = Field(..., min_length=3, regex=r"^[a-zA-Z]+$")
+    last_name: Optional[str] = Field(min_length=3, regex=r"^[a-zA-Z]+$", default="")
 
 
 class UserOut(BaseModel):
@@ -36,3 +37,8 @@ class UserOut(BaseModel):
 class UserLogin(BaseModel):
     email: str
     password: str
+
+
+class UserLocation(BaseModel):
+    lat: float
+    lon: float

@@ -6,7 +6,7 @@
     {
       "label": "run server",
       "type": "shell",
-      "command": "uvicorn main:app --reload --port=3000"
+      "command": "uvicorn main:app --reload --port=3000 --host=0.0.0.0"
     }
   ]
 }
