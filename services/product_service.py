@@ -4,7 +4,6 @@ from models.mongo.product import (
     ProductOut,
     ProductUpdate,
     ProductDelete,
-    ProductDeleteMany,
 )
 from repositories.product_repository import ProductRepository
 

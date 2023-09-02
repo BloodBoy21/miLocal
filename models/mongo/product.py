@@ -12,6 +12,7 @@ class Product(BaseModel):
     sku: str = Field(...)
     price: float = Field(...)
     stock: int = Field(...)
+    image: str = Field(default="")
     store_id: int = Field(..., index=True)
     created_at: str = datetime.now()
     updated_at: str = datetime.now()
@@ -23,7 +24,7 @@ class ProductIn(BaseModel):
     sku: str = Field(...)
     price: float = Field(...)
     stock: int = Field(...)
-    stores: list[int] = Field(...)
+    stores: Optional[list[int]] = Field(default=None)
     store_id: Optional[int]
 
 
@@ -41,6 +42,7 @@ class ProductUpdate(BaseModel):
     price: Optional[float]
     stock: Optional[int]
     stores: list[int]
+    image: Optional[str]
 
 
 class ProductDelete(BaseModel):

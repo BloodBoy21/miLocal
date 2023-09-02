@@ -31,3 +31,5 @@ class StoreOut(BaseModel):
     status: str
     store_id: int
     user_id: int
+    lat: float
+    long: float

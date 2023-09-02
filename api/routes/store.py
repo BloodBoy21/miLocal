@@ -14,6 +14,11 @@ def create_store(store: StoreIn, user: User = Depends(auth_user)) -> StoreOut:
     return store_service.create_store(store, user)
 
 
+@router.get("/{store_id}")
+def get_store(store_id: int) -> StoreOut:
+    return store_service.get_store(store_id)
+
+
 @router.get("/{store_id}/products")
 async def get_products(store_id: int) -> list[ProductOut]:
     return await product_service.get_products(store_id)

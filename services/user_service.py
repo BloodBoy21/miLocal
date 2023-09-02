@@ -16,7 +16,12 @@ def create_user(user: UserIn) -> dict:
     new_user = user_repository.create(user)
     user_out = UserOut(**new_user.__dict__)
     token = generate_token(user_out.user_id)
-    return {"token": token, "user": user_out}
+    return {
+        "token": token,
+        "firstName": user_out.first_name,
+        "lastName": user_out.last_name,
+        "profilePicture": user_out.profile_picture,
+    }
 
 
 def login_user(user: UserLogin) -> dict:
@@ -33,4 +38,9 @@ def login_user(user: UserLogin) -> dict:
         )
     user_out = UserOut(**user_db.__dict__)
     token = generate_token(user_out.user_id)
-    return {"token": token}
+    return {
+        "token": token,
+        "firstName": user_out.first_name,
+        "lastName": user_out.last_name,
+        "profilePicture": user_out.profile_picture,
+    }

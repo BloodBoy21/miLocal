@@ -26,3 +26,8 @@ def get_user_stores(user: User) -> list[StoreOut]:
 def get_nearby_stores(location: UserLocation) -> list[StoreOut]:
     stores = store_repository.find_by_coordinates(location.lat, location.lon)
     return [StoreOut(**store.__dict__) for store in stores]
+
+
+def get_store(store_id: int) -> StoreOut:
+    store = store_repository.find_by_id(store_id)
+    return StoreOut(**store.__dict__)
