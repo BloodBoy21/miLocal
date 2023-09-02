@@ -52,7 +52,9 @@ async def get_products(store_id: int) -> list[ProductOut]:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Products not found",
         )
-    products = [ProductOut(**product) for product in products]
+    products = [
+        ProductOut(**product, product_id=product.get("_id")) for product in products
+    ]
     return products
 
 

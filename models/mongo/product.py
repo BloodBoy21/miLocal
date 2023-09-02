@@ -2,8 +2,21 @@ from pydantic import BaseModel, Field
 from database.mongo import database
 from datetime import datetime
 from typing import Optional
+from bson.objectid import ObjectId as BsonObjectId
 
 PRODUCTS_COLLECTION = database.get_collection("products")
+
+
+class PydanticObjectId(BsonObjectId):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v, info):
+        if not isinstance(v, BsonObjectId):
+            raise TypeError("ObjectId required")
+        return str(v)
 
 
 class Product(BaseModel):
@@ -26,10 +39,11 @@ class ProductIn(BaseModel):
     stock: int = Field(...)
     stores: Optional[list[int]] = Field(default=None)
     store_id: Optional[int]
+    image: Optional[str]
 
 
 class ProductOut(ProductIn):
-    _id: str
+    product_id: PydanticObjectId
     store_id: int
     created_at: datetime
     updated_at: datetime

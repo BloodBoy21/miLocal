@@ -19,11 +19,14 @@ class User(db):
 
 class UserIn(BaseModel):
     password: str = Field(
-        ..., min_length=8, regex=r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"
+        ...,
+        min_length=8,
     )
-    email: str = Field(..., regex=r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+$")
-    first_name: str = Field(..., min_length=3, regex=r"^[a-zA-Z]+$")
-    last_name: Optional[str] = Field(min_length=3, regex=r"^[a-zA-Z]+$", default="")
+    email: str = Field(
+        ..., pattern=r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+$"
+    )
+    first_name: str = Field(..., min_length=3, pattern=r"^[a-zA-Z]+$")
+    last_name: Optional[str] = Field(min_length=3, pattern=r"^[a-zA-Z]+$", default="")
 
 
 class UserOut(BaseModel):
