@@ -21,6 +21,7 @@ class UserIn(BaseModel):
     password: str = Field(
         ...,
         min_length=8,
+        pattern=r"^[a-zA-Z\d]*[a-z]+[a-zA-Z\d]*[A-Z]+[a-zA-Z\d]*\d+[a-zA-Z\d]*$",
     )
     email: str = Field(
         ..., pattern=r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+$"
