@@ -14,6 +14,12 @@ def create_store(store: StoreIn, user: User = Depends(auth_user)) -> StoreOut:
     return store_service.create_store(store, user)
 
 
+@router.get("/nearby")
+def get_nearby_stores(lat: float, lon: float) -> list[StoreOut]:
+    location = UserLocation(lat=lat, lon=lon)
+    return store_service.get_nearby_stores(location)
+
+
 @router.get("/{store_id}")
 def get_store(store_id: int) -> StoreOut:
     return store_service.get_store(store_id)
@@ -27,9 +33,3 @@ async def get_products(store_id: int) -> list[ProductOut]:
 @router.get("/{store_id}/product/{product_id}")
 async def get_product(product_id: str, store_id) -> list[ProductOut]:
     return await product_service.get_product(product_id, store_id)
-
-
-@router.get("/nearby")
-def get_nearby_stores(lat: float, lon: float) -> list[StoreOut]:
-    location = UserLocation(lat=lat, lon=lon)
-    return store_service.get_nearby_stores(location)
