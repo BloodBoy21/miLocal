@@ -1,9 +1,10 @@
 from database.db import db
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from models.store import Store
 from typing import Optional
+import re
 
 
 class User(db):
@@ -21,13 +22,21 @@ class UserIn(BaseModel):
     password: str = Field(
         ...,
         min_length=8,
-        pattern=r"^[a-zA-Z\d]*[a-z]+[a-zA-Z\d]*[A-Z]+[a-zA-Z\d]*\d+[a-zA-Z\d]*$",
     )
     email: str = Field(
         ..., pattern=r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+$"
     )
     first_name: str = Field(..., min_length=3, pattern=r"^[a-zA-Z]+$")
     last_name: Optional[str] = Field(min_length=3, pattern=r"^[a-zA-Z]+$", default="")
+
+    @validator("password")
+    def validate_password(cls, value):
+        password_pattern = (
+            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+        )
+        if not re.match(password_pattern, value):
+            raise ValueError("Password not match with pattern")
+        return value
 
 
 class UserOut(BaseModel):
