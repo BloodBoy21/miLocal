@@ -27,6 +27,8 @@ class Product(BaseModel):
     stock: int = Field(...)
     image: str = Field(default="")
     store_id: int = Field(..., index=True)
+    sale: Optional[bool] = False
+    discount: Optional[float]
     created_at: str = datetime.now()
     updated_at: str = datetime.now()
 
@@ -47,6 +49,8 @@ class ProductOut(ProductIn):
     store_id: int
     created_at: datetime
     updated_at: datetime
+    sale: bool
+    discount: float
 
 
 class ProductUpdate(BaseModel):
@@ -57,6 +61,8 @@ class ProductUpdate(BaseModel):
     stock: Optional[int]
     stores: list[int]
     image: Optional[str]
+    sale: Optional[bool] = False
+    discount: Optional[float]
 
 
 class ProductDelete(BaseModel):

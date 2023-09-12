@@ -1,6 +1,7 @@
-from models.mongo.product import Product, ProductIn, ProductUpdate
+from models.mongo.product import Product, ProductIn
 from repositories.repository_mongo import RepositoryMongo
 from models.mongo.product import Product
+from models.store import StoreProductFilters
 
 
 class ProductRepository(RepositoryMongo):
@@ -17,8 +18,10 @@ class ProductRepository(RepositoryMongo):
     async def get(self, product_id: str, store_id: int) -> Product:
         return await self.find_one({"_id": product_id, "store_id": store_id})
 
-    async def get_by_store_id(self, store_id: int) -> list[Product]:
-        return await self.find_many({"store_id": store_id})
+    async def get_by_store_id(
+        self, store_id: int, filters: StoreProductFilters
+    ) -> list[Product]:
+        return await self.find_many({"store_id": store_id, **filters.__dict__})
 
     def update(self, query: dict, data: dict):
         return self.update_one(query, data)

@@ -2,6 +2,7 @@ from database.db import db
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from pydantic import BaseModel, Field
+from typing import Optional
 
 
 class Store(db):
@@ -33,3 +34,7 @@ class StoreOut(BaseModel):
     user_id: int
     lat: float
     long: float
+
+
+class StoreProductFilters(BaseModel):
+    sale: Optional[bool]

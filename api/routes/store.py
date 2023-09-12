@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends
 from utils.auth import auth_user
-from models.store import StoreIn, StoreOut
+from models.store import StoreIn, StoreOut, StoreProductFilters
 import services.store_service as store_service
 from models.user import User, UserLocation
 import services.product_service as product_service
 from models.mongo.product import ProductOut
+from typing import Optional
 
 router = APIRouter()
 
@@ -26,8 +27,9 @@ def get_store(store_id: int) -> StoreOut:
 
 
 @router.get("/{store_id}/products")
-async def get_products(store_id: int) -> list[ProductOut]:
-    return await product_service.get_products(store_id)
+async def get_products(store_id: int, sale: Optional[bool] = False) -> list[ProductOut]:
+    filters = StoreProductFilters(sale=sale)
+    return await product_service.get_products(store_id, filters=filters)
 
 
 @router.get("/{store_id}/product/{product_id}")

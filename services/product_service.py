@@ -6,6 +6,7 @@ from models.mongo.product import (
     ProductDelete,
 )
 from repositories.product_repository import ProductRepository
+from models.store import StoreProductFilters
 
 product_repository = ProductRepository()
 
@@ -44,14 +45,9 @@ async def get_product(product_id: str, store_id: int) -> ProductOut:
     )
 
 
-async def get_products(store_id: int) -> list[ProductOut]:
-    products = await product_repository.get_by_store_id(store_id)
+async def get_products(store_id: int, filters: StoreProductFilters) -> list[ProductOut]:
+    products = await product_repository.get_by_store_id(store_id, filters)
     products = [product async for product in products]
-    if len(products) == 0:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Products not found",
-        )
     products = [
         ProductOut(**product, product_id=product.get("_id")) for product in products
     ]
